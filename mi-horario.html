@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Horario de Clases</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.3);
+            padding: 40px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 35px;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 20px;
+        }
+
+        h1 {
+            color: #333;
+            font-size: 2.5em;
+            margin-bottom: 15px;
+        }
+
+        .info {
+            color: #666;
+            font-size: 1.1em;
+            margin-bottom: 8px;
+        }
+
+        .escuela {
+            color: #667eea;
+            font-weight: bold;
+            font-size: 1.05em;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        th {
+            background-color: #333;
+            color: white;
+            padding: 16px;
+            text-align: center;
+            font-size: 1.05em;
+            border: 2px solid #333;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 18px;
+            text-align: center;
+            border: 2px solid #ddd;
+            font-weight: 600;
+            font-size: 0.95em;
+            transition: transform 0.2s ease;
+        }
+
+        tr:hover td {
+            transform: scale(1.02);
+        }
+
+        /* Colores de fondo para cada materia */
+        .matematicas {
+            background-color: #FFE5E5;
+            color: #C41E3A;
+            border-left: 5px solid #C41E3A;
+        }
+
+        .lenguaje {
+            background-color: #E5F3FF;
+            color: #003366;
+            border-left: 5px solid #003366;
+        }
+
+        .ingles {
+            background-color: #E5FFE5;
+            color: #2D5016;
+            border-left: 5px solid #2D5016;
+        }
+
+        .ciencias-politicas {
+            background-color: #FFF0E5;
+            color: #8B4513;
+            border-left: 5px solid #8B4513;
+        }
+
+        .quimica {
+            background-color: #F0E5FF;
+            color: #4B0082;
+            border-left: 5px solid #4B0082;
+        }
+
+        .fisica {
+            background-color: #FFE5F5;
+            color: #C71585;
+            border-left: 5px solid #C71585;
+        }
+
+        .gestion-ambiental {
+            background-color: #E5FFE5;
+            color: #1B4620;
+            border-left: 5px solid #1B4620;
+        }
+
+        .gestion-emocional {
+            background-color: #FFFFE5;
+            color: #B8860B;
+            border-left: 5px solid #B8860B;
+        }
+
+        .etica {
+            background-color: #FFE5E5;
+            color: #8B0000;
+            border-left: 5px solid #8B0000;
+        }
+
+        .filosofia {
+            background-color: #E5F3FF;
+            color: #191970;
+            border-left: 5px solid #191970;
+        }
+
+        .descanso {
+            background-color: #F0F0F0;
+            color: #555;
+            font-style: italic;
+            border-left: 5px solid #999;
+        }
+
+        .hora-col {
+            background-color: #f5f5f5;
+            font-weight: bold;
+            color: #333;
+        }
+
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 25px;
+            border-radius: 10px;
+            margin-top: 30px;
+            font-size: 0.95em;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        footer a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        .legend {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 10px;
+            border-left: 5px solid #667eea;
+        }
+
+        .legend h3 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+        }
+
+        .legend-items {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+        }
+
+        .legend-item {
+            padding: 8px 12px;
+            border-radius: 5px;
+            font-size: 0.9em;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 3px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 1.8em;
+            }
+
+            table {
+                font-size: 0.85em;
+            }
+
+            td, th {
+                padding: 10px 5px;
+            }
+
+            .legend-items {
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📚 Mi Horario de Clases</h1>
+            <p class="info">Estudiante: <strong>JuanCamilo777Pro</strong></p>
+            <p class="escuela">🏫 Colegio Salesiano de Duitama</p>
+        </header>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Hora</th>
+                    <th>Lunes</th>
+                    <th>Martes</th>
+                    <th>Miércoles</th>
+                    <th>Jueves</th>
+                    <th>Viernes</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="hora-col">7:00 AM - 8:00 AM</td>
+                    <td class="ciencias-politicas">Ciencias Políticas</td>
+                    <td class="matematicas">Matemáticas</td>
+                    <td class="lenguaje">Lenguaje</td>
+                    <td class="ingles">Inglés</td>
+                    <td class="gestion-emocional">Gestión Emocional</td>
+                </tr>
+                <tr>
+                    <td class="hora-col">8:00 AM - 9:00 AM</td>
+                    <td class="quimica">Química</td>
+                    <td class="lenguaje">Lenguaje</td>
+                    <td class="matematicas">Matemáticas</td>
+                    <td class="gestion-emocional">Gestión Emocional</td>
+                    <td class="ingles">Inglés</td>
+                </tr>
+                <tr>
+                    <td class="hora-col">9:00 AM - 10:00 AM</td>
+                    <td class="fisica">Física</td>
+                    <td class="ingles">Inglés</td>
+                    <td class="etica">Ética</td>
+                    <td class="matematicas">Matemáticas</td>
+                    <td class="filosofia">Filosofía</td>
+                </tr>
+                <tr>
+                    <td class="hora-col">10:00 AM - 10:30 AM</td>
+                    <td colspan="5" class="descanso">☕ DESCANSO</td>
+                </tr>
+                <tr>
+                    <td class="hora-col">10:30 AM - 11:30 AM</td>
+                    <td class="gestion-ambiental">Gestión Ambiental</td>
+                    <td class="ciencias-politicas">Ciencias Políticas</td>
+                    <td class="gestion-emocional">Gestión Emocional</td>
+                    <td class="lenguaje">Lenguaje</td>
+                    <td class="quimica">Química</td>
+                </tr>
+                <tr>
+                    <td class="hora-col">11:30 AM - 12:30 PM</td>
+                    <td class="filosofia">Filosofía</td>
+                    <td class="fisica">Física</td>
+                    <td class="ingles">Inglés</td>
+                    <td class="gestion-ambiental">Gestión Ambiental</td>
+                    <td class="etica">Ética</td>
+                </tr>
+                <tr>
+                    <td class="hora-col">12:30 PM - 1:00 PM</td>
+                    <td class="etica">Ética</td>
+                    <td class="gestion-ambiental">Gestión Ambiental</td>
+                    <td class="filosofia">Filosofía</td>
+                    <td class="fisica">Física</td>
+                    <td class="matematicas">Matemáticas</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="legend">
+            <h3>🎨 Leyenda de Colores</h3>
+            <div class="legend-items">
+                <div class="legend-item">
+                    <div class="legend-color" style="background-color: #FFE5E5;"></div>
+                    <span>Matemáticas</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background-color: #E5F3FF;"></div>
+                    <span>Lenguaje</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background-color: #E5FFE5;"></div>
+                    <span>Inglés</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background-color: #FFF0E5;"></div>
+                    <span>Ciencias Políticas</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background-color: #F0E5FF;"></div>
+                    <span>Química</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background-color: #FFE5F5;"></div>
+                    <span>Física</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background-color: #E5FFE5;"></div>
+                    <span>Gestión Ambiental</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background-color: #FFFFE5;"></div>
+                    <span>Gestión Emocional</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background-color: #FFE5E5;"></div>
+                    <span>Ética</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background-color: #E5F3FF;"></div>
+                    <span>Filosofía</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>Hecho con <strong>HTML + Copilot</strong> | Escuela OSM Salesiano 2026</p>
+    </footer>
+</body>
+</html>
